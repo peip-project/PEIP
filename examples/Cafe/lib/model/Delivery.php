@@ -1,16 +1,13 @@
 <?php
 
-class Delivery {
+class Delivery
+{
+    protected $deliveredDrinks,
+        $orderNumber;
 
-	protected 
-		$deliveredDrinks,
-		$orderNumber;
-	
-	public function __construct(array $deliveredDrinks){
-		$this->deliveredDrinks = $deliveredDrinks;
-		$this->orderNumber = $deliveredDrinks[0]->getOrderNumber();
-	}
-
-
-
+    public function __construct(array $deliveredDrinks)
+    {
+        $this->deliveredDrinks = $deliveredDrinks;
+        $this->orderNumber = $deliveredDrinks[0]->getOrderNumber();
+    }
 }

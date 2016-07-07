@@ -4,19 +4,19 @@
 define('PEIP_LINE_SEPARATOR', "\n");
 
 // This is PEIP´s (basic) way of the famous starbucks example from
-// Gregor Hohpe http://www.eaipatterns.com/ramblings/18_starbucks.html 
+// Gregor Hohpe http://www.eaipatterns.com/ramblings/18_starbucks.html
 
-// Note since this example works in a single threaded environment it 
+// Note since this example works in a single threaded environment it
 // processes the orders in a synchronous way - every order is placed,
-// prepared and delivered one after the other. 
+// prepared and delivered one after the other.
 // How to avoid this behavior will be shown in further examples.
- 
+
 
 // requiring autoloader
-require_once(dirname(__FILE__).'/misc/bootstrap.php');
+require_once dirname(__FILE__).'/misc/bootstrap.php';
 
 
-$context = PEIP_XML_Context::createFromFile(dirname(__FILE__).'/config/config.xml'); 
+$context = PEIP_XML_Context::createFromFile(dirname(__FILE__).'/config/config.xml');
 $cafe = $context->getGateway('CafeGateway');
 
 // this would be the same done by scripting.
@@ -44,28 +44,25 @@ $cafe = $context->getGateway('CafeGateway');
  */
 
 
-if($cafe){
-
-	for ($i = 1; $i <= 10; $i++) {
-       	// create and place orders
-		$order = new Order();
-        	$order->addItem("LATTE", 2, false);
-        	$order->addItem("MOCCA", 3, true);
-        	$cafe->placeOrder($order);
-        	// receive drinks
-		$drinks = $cafe->receiveDelivery();
-    	}	
-
-}else{
-	throw new RuntimeException('Could not get CafeGateway');
+if ($cafe) {
+    for ($i = 1; $i <= 10; $i++) {
+        // create and place orders
+        $order = new Order();
+        $order->addItem('LATTE', 2, false);
+        $order->addItem('MOCCA', 3, true);
+        $cafe->placeOrder($order);
+            // receive drinks
+        $drinks = $cafe->receiveDelivery();
+    }
+} else {
+    throw new RuntimeException('Could not get CafeGateway');
 }
 
 function convert($size)
- {
-    $unit=array('b','kb','mb','gb','tb','pb');
-    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
- }
+{
+    $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-echo PHP_EOL.PHP_EOL.'memory usage: '.convert(memory_get_usage(true)).PHP_EOL.PHP_EOL; 
+    return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).' '.$unit[$i];
+}
 
-
+echo PHP_EOL.PHP_EOL.'memory usage: '.convert(memory_get_usage(true)).PHP_EOL.PHP_EOL;
