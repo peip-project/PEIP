@@ -5,117 +5,105 @@ namespace PEIP\Event;
 /*
  * This file is part of the PEIP package.
  * (c) 2009-2011 Timo Michna <timomichna/yahoo.de>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 /**
- * Observable 
+ * Observable.
  *
  * @author Timo Michna <timomichna/yahoo.de>
- * @package PEIP 
- * @subpackage event 
  * @implements \PEIP\INF\Event\Observable
  */
-
-
-
-
-class Observable implements \PEIP\INF\Event\Observable {
-
+class Observable implements \PEIP\INF\Event\Observable
+{
     protected $observedObject;
-    
-    protected $observers = array();
+
+    protected $observers = [];
 
     protected $hasChanged = false;
-    
-    
+
+
     /**
-     * @access public
-     * @param $observedObject 
-     * @return 
+     * @param $observedObject
+     *
+     * @return
      */
-    public function __construct(object $observedObject){
+    public function __construct(object $observedObject)
+    {
         $this->observedObject = $observedObject;
     }
 
-    
     /**
-     * @access public
-     * @param $observer 
-     * @return 
+     * @param $observer
+     *
+     * @return
      */
-    public function addObserver(\PEIP\INF\Event\Observer $observer){
-        $this->observers[] = $observer;     
+    public function addObserver(\PEIP\INF\Event\Observer $observer)
+    {
+        $this->observers[] = $observer;
     }
 
-    
     /**
-     * @access public
-     * @param $observer 
-     * @return 
+     * @param $observer
+     *
+     * @return
      */
-    public function deleteObserver(\PEIP\INF\Event\Observer $observer){
-        foreach($this->observers as $key=>$obs){
-            if($obs == $observer){
+    public function deleteObserver(\PEIP\INF\Event\Observer $observer)
+    {
+        foreach ($this->observers as $key => $obs) {
+            if ($obs == $observer) {
                 unset($this->observers[$key]);
+
                 return true;
             }
         }
     }
-    
-    
+
     /**
-     * @access public
-     * @param $arguments 
-     * @return 
+     * @param $arguments
+     *
+     * @return
      */
-    public function notifyObservers(array $arguments = array()){
-        if($this->hasChanged()){
-            foreach($this->observers as $observer){
+    public function notifyObservers(array $arguments = [])
+    {
+        if ($this->hasChanged()) {
+            foreach ($this->observers as $observer) {
                 $observer->update($this->observedObject);
-            }       
+            }
         }
     }
 
-    
     /**
-     * @access public
-     * @return 
+     * @return
      */
-    public function countObservers(){
+    public function countObservers()
+    {
         return count($this->obeservers);
     }
-    
-    
+
     /**
-     * @access public
-     * @return 
+     * @return
      */
-    public function hasChanged(){
+    public function hasChanged()
+    {
         return $this->hasChanged();
     }
-    
-    
+
     /**
-     * @access public
-     * @return 
+     * @return
      */
-    public function setChanged(){
+    public function setChanged()
+    {
         $this->hasChanged = true;
     }
 
-    
     /**
-     * @access public
-     * @return 
+     * @return
      */
-    public function clearChanged(){
-        $this->hasChanged = true;   
+    public function clearChanged()
+    {
+        $this->hasChanged = true;
     }
-
-
-
-
 }
